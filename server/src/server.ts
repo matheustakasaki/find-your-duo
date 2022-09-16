@@ -4,7 +4,7 @@ import { convertHourStringToMinutes } from "./utils/convert-hour-string-to-minut
 
 const app = express();
 
-app.use(express.json);
+app.use(express.json());
 
 const prisma = new PrismaClient({
   log: ["query"],
