@@ -1,11 +1,13 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { convertHourStringToMinutes } from "./utils/convert-hour-string-to-minutes";
+import { convertMinutesToHourString } from "./utils/convert-minutes-to-hour-string";
+import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 const prisma = new PrismaClient({
   log: ["query"],
 });
@@ -101,6 +103,6 @@ app.get("/ads/:id/discord", async (request, response) => {
 // response serve para devolvermos uma resposta
 
 app.listen(3333);
-function convertMinutesToHourString(hourStart: number): any {
-  throw new Error("Function not implemented.");
-}
+// function convertMinutesToHourString(hourStart: number): any {
+//   throw new Error("Function not implemented.");
+// }
