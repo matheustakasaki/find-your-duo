@@ -32,3 +32,5 @@ Exemplo:
 2. Criação de novo anúncio
 3. Lista de anúncio por game
 4. Buscar discord pelo ID do anúncio
+
+http://localhost:3333/games
