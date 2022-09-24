@@ -4,7 +4,7 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group'
 
 import { Check, GameController } from "phosphor-react";
 import Input from "./Form/Input";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 
 interface Game {
     id: string,
@@ -16,7 +16,15 @@ export default function CrateAdModal() {
     const [games, setGames] = useState<Game[]>([]) // o usestate está definindo um Generic para poder inferir Typescript
 
     const [weekDays, setWeekDays] = useState<string[]>([])
+    const [useVoiceChannel, setUseVoiceChannel] = useState(false)
 
+    function handleCreateAd(event: FormEvent) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target as HTMLFormElement);
+
+        const data = Object.fromEntries(formData);
+    }
 
     useEffect(() => {
 
@@ -34,7 +42,10 @@ export default function CrateAdModal() {
             <Dialog.Content className='fixed bg-[#2a2634] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] shadow-lg shadow-black/25' >
                 <Dialog.Title className='text-3xl font-black'>Publique um anúncio</Dialog.Title>
 
-                <form className='mt-8 flex flex-col gap-4'>
+                <form
+                    onSubmit={handleCreateAd}
+                    className='mt-8 flex flex-col gap-4'
+                >
                     <div className='flex flex-col gap-2'>
                         <label
                             htmlFor='game'
@@ -42,6 +53,7 @@ export default function CrateAdModal() {
 
                         <select
                             id='game'
+                            name='game'
                             className='bg-zinc-900 py-3 px-4 rounded text-sm placeholder:text-zinc-500'
                             defaultValue=''
                         >
@@ -56,13 +68,13 @@ export default function CrateAdModal() {
 
                     <div className='flex flex-col gap-2'>
                         <label htmlFor="name">Seu nome (ou nickname)</label>
-                        <Input id='name' placeholder='Como te chamam dentro do game?' />
+                        <Input id='name' name='name' placeholder='Como te chamam dentro do game?' />
                     </div>
 
                     <div className='grid grid-cols-2 gap-6'>
                         <div className='flex flex-col gap-2' >
                             <label htmlFor="yearsPlaying">Joga há quantos anos?</label>
-                            <Input placeholder='Tudo bem ser ZERO'></Input>
+                            <Input id='yearsPlaying' name='yearsPlaying' placeholder='Tudo bem ser ZERO'></Input>
                         </div>
 
                         <div className='flex flex-col gap-2'>
@@ -146,7 +158,17 @@ export default function CrateAdModal() {
                         </div>
                     </div>
                     <label className='mt-2 flex items-center gap-2 text-sm'>
-                        <Checkbox.Root className='w-6 h-6 p-1 rounded bg-zinc-900'>
+                        <Checkbox.Root
+                            className='w-6 h-6 p-1 rounded bg-zinc-900'
+                            checked={useVoiceChannel}
+                            onCheckedChange={(checked) => {
+                                if (checked === true) {
+                                    setUseVoiceChannel(true)
+                                } else {
+                                    setUseVoiceChannel(false)
+                                }
+                            }}
+                        >
                             <Checkbox.Indicator className='' >
                                 <Check className='w-4 h-4 text-emerald-400' />
                             </Checkbox.Indicator>
